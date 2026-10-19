@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище BorDer_PR9Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Вид">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Наименование" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Книга">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Автор" Type="nvarchar" MaxLength="50" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" />
+          <Property Name="Описание" Type="nvarchar(max)" />
+          <Property Name="Вид" Type="int" />
+          <Property Name="Цена" Type="float" />
+          <Property Name="Изображение" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Продажи">
+          <Key>
+            <PropertyRef Name="НомерЧека" />
+          </Key>
+          <Property Name="НомерЧека" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Дата" Type="datetime" Nullable="false" />
+          <Property Name="Книга" Type="int" Nullable="false" />
+          <Property Name="Количество" Type="int" Nullable="false" />
+          <Property Name="Итог" Type="float" />
+        </EntityType>
+        <Association Name="FK_Book">
+          <End Role="Книга" Type="Self.Книга" Multiplicity="1" />
+          <End Role="Продажи" Type="Self.Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Книга">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="Книга" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Вид">
+          <End Role="Вид" Type="Self.Вид" Multiplicity="0..1" />
+          <End Role="Книга" Type="Self.Книга" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Вид">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="Книга">
+              <PropertyRef Name="Вид" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище BorDer_PR9ModelContainer">
+          <EntitySet Name="Вид" EntityType="Self.Вид" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Книга" EntityType="Self.Книга" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Продажи" EntityType="Self.Продажи" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Book" Association="Self.FK_Book">
+            <End Role="Книга" EntitySet="Книга" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Вид" Association="Self.FK_Вид">
+            <End Role="Вид" EntitySet="Вид" />
+            <End Role="Книга" EntitySet="Книга" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BorDer_PR9Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Вид">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Наименование" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Книга" Relationship="Self.FK_Вид" FromRole="Вид" ToRole="Книга" />
+        </EntityType>
+        <EntityType Name="Книга">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Автор" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Описание" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Вид" Type="Int32" />
+          <Property Name="Цена" Type="Double" />
+          <Property Name="Изображение" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Вид1" Relationship="Self.FK_Вид" FromRole="Книга" ToRole="Вид" />
+          <NavigationProperty Name="Продажи" Relationship="BorDer_PR9Model.FK_Book" FromRole="Книга" ToRole="Продажи" />
+        </EntityType>
+        <Association Name="FK_Вид">
+          <End Role="Вид" Type="Self.Вид" Multiplicity="0..1" />
+          <End Role="Книга" Type="Self.Книга" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Вид">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="Книга">
+              <PropertyRef Name="Вид" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BorDer_PR9Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Вид" EntityType="Self.Вид" />
+          <EntitySet Name="Книга" EntityType="Self.Книга" />
+          <AssociationSet Name="FK_Вид" Association="Self.FK_Вид">
+            <End Role="Вид" EntitySet="Вид" />
+            <End Role="Книга" EntitySet="Книга" />
+          </AssociationSet>
+          <EntitySet Name="Продажи" EntityType="BorDer_PR9Model.Продажи" />
+          <AssociationSet Name="FK_Book" Association="BorDer_PR9Model.FK_Book">
+            <End Role="Книга" EntitySet="Книга" />
+            <End Role="Продажи" EntitySet="Продажи" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Продажи">
+          <Key>
+            <PropertyRef Name="НомерЧека" />
+          </Key>
+          <Property Name="НомерЧека" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Дата" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Книга" Type="Int32" Nullable="false" />
+          <Property Name="Количество" Type="Int32" Nullable="false" />
+          <Property Name="Итог" Type="Double" />
+          <NavigationProperty Name="Книга1" Relationship="BorDer_PR9Model.FK_Book" FromRole="Продажи" ToRole="Книга" />
+        </EntityType>
+        <Association Name="FK_Book">
+          <End Type="BorDer_PR9Model.Книга" Role="Книга" Multiplicity="1" />
+          <End Type="BorDer_PR9Model.Продажи" Role="Продажи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Книга">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="Продажи">
+              <PropertyRef Name="Книга" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище BorDer_PR9ModelContainer" CdmEntityContainer="BorDer_PR9Entities">
+          <EntitySetMapping Name="Вид">
+            <EntityTypeMapping TypeName="BorDer_PR9Model.Вид">
+              <MappingFragment StoreEntitySet="Вид">
+                <ScalarProperty Name="Код" ColumnName="Код" />
+                <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Книга">
+            <EntityTypeMapping TypeName="BorDer_PR9Model.Книга">
+              <MappingFragment StoreEntitySet="Книга">
+                <ScalarProperty Name="Код" ColumnName="Код" />
+                <ScalarProperty Name="Автор" ColumnName="Автор" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+                <ScalarProperty Name="Вид" ColumnName="Вид" />
+                <ScalarProperty Name="Цена" ColumnName="Цена" />
+                <ScalarProperty Name="Изображение" ColumnName="Изображение" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Продажи">
+            <EntityTypeMapping TypeName="BorDer_PR9Model.Продажи">
+              <MappingFragment StoreEntitySet="Продажи">
+                <ScalarProperty Name="Итог" ColumnName="Итог" />
+                <ScalarProperty Name="Количество" ColumnName="Количество" />
+                <ScalarProperty Name="Книга" ColumnName="Книга" />
+                <ScalarProperty Name="Дата" ColumnName="Дата" />
+                <ScalarProperty Name="НомерЧека" ColumnName="НомерЧека" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
